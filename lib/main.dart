@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
+  runApp(myApp);
+}
+
+Widget myApp=MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: Text("cwoncenwıcn"),
+          title: Text("Ana Sayfa"),
           actions: [
             IconButton(
               icon: Icon(Icons.notifications_none_outlined),
@@ -25,5 +27,3 @@ void main() {
         drawer: Drawer(),
       ),
     ),
-  );
-}
