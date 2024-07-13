@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "736727282510",
+    "project_id": "onlinesatiss-28055",
+    "storage_bucket": "onlinesatiss-28055.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736727282510:android:f07cc4c24a76466b12a41f",
+        "android_client_info": {
+          "package_name": "com.online_satis.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrgIJqCA52f0vyq0VxXGtaNgkUxTdqlQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,19 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:online_satis/firebase_options.dart';
 import 'package:online_satis/widgets/ana_sayfa_urun_widget.dart';
+import 'package:online_satis/widgets/kategori_widget.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
 DateTime hedef_zaman = DateTime(2024, 12, 29, 12);
 Duration kalan_zaman = hedef_zaman.difference(DateTime.now());
-List<String> kategoriler = [
+/*List<String> kategoriler = [
   "FashionCart",
   "AppliancesCart",
   "BeautyCart",
   "ElectronicCart",
   "FurnitureCart",
-];
+];*/
 
 class MyApp extends StatelessWidget {
   @override
@@ -105,19 +110,20 @@ class MyApp extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    for (int i = 0; i < kategoriler.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 9),
-                        child: Column(
-                          children: [
-                            Image(
-                              image: AssetImage('assets/${kategoriler[i]}.png'),
-                            ),
-                            Text(
-                                "${kategoriler[i].substring(0, kategoriler[i].length - 4)}"),
-                          ],
-                        ),
-                      )
+                    FutureBuilder(
+                        future: FirebaseFirestore.instance
+                            .collection("kategoriler")
+                            .doc("8MBhTlsGaLwtbflmavEc")
+                            .get(),
+                        builder: (context, snapshot) {
+                          final veri = snapshot.data!.data();
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else
+                            return CategoryWidget(
+                                title: veri?["name"], imageUrl: "");
+                        })
                   ],
                 ),
               ),
@@ -348,34 +354,37 @@ class MyApp extends StatelessWidget {
                         indirimOrani: 50),
                   ],
                 ),
-              )
+              ),
             ],
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.category),
+              label: 'Categories',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list_alt),
+              label: 'Orders',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: 0, // Seçili olan tabı belirtir
+          onTap: (index) {
+            // Tab değiştirildiğinde yapılacak işlemler
+            print("Selected Tab: $index");
+          },
         ),
       ),
     );
   }
 }
-/*Widget myApp=MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Ana Sayfa"),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notifications_none_outlined),
-              onPressed: () {
-                print("Search button clicked");
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.shopping_cart_outlined),
-              onPressed: () {
-                print("More button clicked");
-              },
-            ),
-          ],
-        ),
-        drawer: Drawer(),
-      ),
-    );*/

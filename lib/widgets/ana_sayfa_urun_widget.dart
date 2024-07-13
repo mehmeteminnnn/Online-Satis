@@ -28,7 +28,7 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 60,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -64,9 +64,19 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: 8),
-                Text(
-                  '${widget.indirimOrani.toInt()}% OFF',
-                  style: TextStyle(color: Colors.red),
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.red),
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Text(
+                      '${widget.indirimOrani.toInt()}% İndirim',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
