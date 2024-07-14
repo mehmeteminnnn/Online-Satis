@@ -13,6 +13,7 @@ class CategoryWidget extends StatelessWidget {
       child: Column(
         children: [
           if (imageUrl.isNotEmpty) Image.network(imageUrl),
+          SizedBox(height: 5),
           Text(title),
         ],
       ),

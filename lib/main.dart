@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:online_satis/firebase_options.dart';
 import 'package:online_satis/widgets/ana_sayfa_urun_widget.dart';
 import 'package:online_satis/widgets/kategori_widget.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
+  FlutterNativeSplash.remove(); // Remove the splash screen
 }
 
 DateTime hedef_zaman = DateTime(2024, 12, 29, 12);
@@ -149,31 +152,31 @@ class MyApp extends StatelessWidget {
               SizedBox(height: 16),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    FutureBuilder(
-                      future: FirebaseFirestore.instance
-                          .collection("kategoriler")
-                          .doc("8MBhTlsGaLwtbflmavEc")
-                          .get(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.hasError) {
-                          return Text("Error: ${snapshot.error}");
-                        } else if (!snapshot.hasData ||
-                            !snapshot.data!.exists) {
-                          return Text("No data found");
-                        } else {
-                          final veri = snapshot.data!.data();
-                          return CategoryWidget(
-                              title: veri?["adı"], imageUrl: "");
-                        }
-                      },
-                    )
-                  ],
-                ),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("kategoriler")
+                        .snapshots(),
+                    builder: (_, snapshot) {
+                      if (snapshot.hasData) {
+                        final categoryList =
+                            snapshot.data!.docs.map((e) => e.data()).toList();
+                        return Row(
+                          children: [
+                            const SizedBox(width: 6),
+                            for (final data in categoryList)
+                              CategoryWidget(
+                                title: data['adı'],
+                                imageUrl: data['resimUrl'],
+                              ),
+                            const SizedBox(width: 4)
+                          ],
+                        );
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    }),
               ),
               SizedBox(height: 16),
               SizedBox(
