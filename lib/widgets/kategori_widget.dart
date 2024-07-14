@@ -12,7 +12,7 @@ class CategoryWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 9),
       child: Column(
         children: [
-          if (imageUrl != null) Image.network(imageUrl),
+          if (imageUrl.isNotEmpty) Image.network(imageUrl),
           Text(title),
         ],
       ),

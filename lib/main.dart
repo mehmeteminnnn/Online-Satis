@@ -5,7 +5,8 @@ import 'package:online_satis/firebase_options.dart';
 import 'package:online_satis/widgets/ana_sayfa_urun_widget.dart';
 import 'package:online_satis/widgets/kategori_widget.dart';
 
-Future<void> main() async {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
@@ -46,7 +47,47 @@ class MyApp extends StatelessWidget {
             ),
           ],
         ),
-        drawer: Drawer(),
+        drawer: Drawer(
+          width: 250,
+          backgroundColor: const Color.fromARGB(255, 181, 115, 91),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 181, 115, 91)),
+                accountName: Text('Mehmet Emin Tok'),
+                accountEmail: Text('mehmetemin@example.com'),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2158000/mauro-icardi-iha-2159676.jpg"),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.home, color: Colors.white),
+                title: Text('Home', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  // Home sayfasına gitmek için kod buraya
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.settings, color: Colors.white),
+                title: Text('Settings', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  // Ayarlar sayfasına gitmek için kod buraya
+                },
+              ),
+              Divider(color: Colors.white70),
+              ListTile(
+                leading: Icon(Icons.logout, color: Colors.white),
+                title: Text('Logout', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  // Çıkış yapmak için kod buraya
+                },
+              ),
+            ],
+          ),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -111,19 +152,26 @@ class MyApp extends StatelessWidget {
                 child: Row(
                   children: [
                     FutureBuilder(
-                        future: FirebaseFirestore.instance
-                            .collection("kategoriler")
-                            .doc("8MBhTlsGaLwtbflmavEc")
-                            .get(),
-                        builder: (context, snapshot) {
+                      future: FirebaseFirestore.instance
+                          .collection("kategoriler")
+                          .doc("8MBhTlsGaLwtbflmavEc")
+                          .get(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text("Error: ${snapshot.error}");
+                        } else if (!snapshot.hasData ||
+                            !snapshot.data!.exists) {
+                          return Text("No data found");
+                        } else {
                           final veri = snapshot.data!.data();
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else
-                            return CategoryWidget(
-                                title: veri?["name"], imageUrl: "");
-                        })
+                          return CategoryWidget(
+                              title: veri?["adı"], imageUrl: "");
+                        }
+                      },
+                    )
                   ],
                 ),
               ),

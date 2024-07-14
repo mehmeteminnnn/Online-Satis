@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'onlinesatiss-28055.firebaseapp.com',
     storageBucket: 'onlinesatiss-28055.appspot.com',
   );
+
 }
