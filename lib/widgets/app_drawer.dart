@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -23,7 +25,7 @@ class _AppDrawerState extends State<AppDrawer> {
             accountEmail: Text('mehmetemin@example.com'),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(
-                  "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2158000/mauro-icardi-iha-2159676.jpg"),
+                  "https://fikirturu.com/storage/2024/03/260520231-scaled-1-696x464.jpg"),
             ),
           ),
           ListTile(
@@ -45,6 +47,7 @@ class _AppDrawerState extends State<AppDrawer> {
             leading: Icon(Icons.logout, color: Colors.white),
             title: Text('Logout', style: TextStyle(color: Colors.white)),
             onTap: () {
+              FirebaseAuth.instance.signOut();
               // Çıkış yapmak için kod buraya
             },
           ),
