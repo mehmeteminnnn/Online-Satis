@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:online_satis/pages/kayit_sayfasi.dart';
 
 class GirisSayfasi extends StatefulWidget {
   const GirisSayfasi({super.key});
@@ -65,13 +66,20 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
                 onPressed: () {
                   if (yukleniyor1 = true)
                     CircularProgressIndicator();
-                  else yukleniyor1 = true;
-                    setState(() {
-                      FirebaseAuth.instance.signInAnonymously();
-                    });
+                  else
+                    yukleniyor1 = true;
+                  setState(() {
+                    FirebaseAuth.instance.signInAnonymously();
+                  });
                 },
                 child: Text("Anonim Giriş Yap"),
               ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => KayitSayfasi()));
+                },
+                child: Text("Kayıt Ol")),
           ],
         ),
       ),
