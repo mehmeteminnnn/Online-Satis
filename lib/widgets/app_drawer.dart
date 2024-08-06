@@ -48,6 +48,7 @@ class _AppDrawerState extends State<AppDrawer> {
             title: Text('Logout', style: TextStyle(color: Colors.white)),
             onTap: () {
               FirebaseAuth.instance.signOut();
+              Scaffold.of(context).closeDrawer();
               // Çıkış yapmak için kod buraya
             },
           ),

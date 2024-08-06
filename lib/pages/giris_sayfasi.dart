@@ -10,20 +10,29 @@ class GirisSayfasi extends StatefulWidget {
 }
 
 class _GirisSayfasiState extends State<GirisSayfasi> {
+  var yukleniyor = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
             child: Text("Giriş Sayfası"),
           ),
-          TextButton(
-            onPressed: () {
-              FirebaseAuth.instance.signInAnonymously();
-            },
-            child: Text("Giriş Yap"),
-          ),
+          if (yukleniyor)
+            CircularProgressIndicator()
+          else
+            TextButton(
+              onPressed: () {
+                yukleniyor = true;
+                setState(() {
+                  FirebaseAuth.instance.signInAnonymously();
+                });
+              },
+              child: Text("Giriş Yap"),
+            ),
         ],
       ),
     );
