@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:online_satis/widgets/ana_sayfa_urun_widget.dart';
+import 'package:online_satis/widgets/app_drawer.dart';
 import 'package:online_satis/widgets/kategori_widget.dart';
 
 DateTime hedef_zaman = DateTime(2024, 12, 29, 12);
@@ -31,47 +32,7 @@ class AnaSayfa extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Drawer(
-        width: 250,
-        backgroundColor: const Color.fromARGB(255, 181, 115, 91),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            UserAccountsDrawerHeader(
-              decoration:
-                  BoxDecoration(color: const Color.fromARGB(255, 181, 115, 91)),
-              accountName: Text('Mehmet Emin Tok'),
-              accountEmail: Text('mehmetemin@example.com'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2158000/mauro-icardi-iha-2159676.jpg"),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home, color: Colors.white),
-              title: Text('Home', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                // Home sayfasına gitmek için kod buraya
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings, color: Colors.white),
-              title: Text('Settings', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                // Ayarlar sayfasına gitmek için kod buraya
-              },
-            ),
-            Divider(color: Colors.white70),
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.white),
-              title: Text('Logout', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                // Çıkış yapmak için kod buraya
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
