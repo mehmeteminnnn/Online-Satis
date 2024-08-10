@@ -322,32 +322,39 @@ class AnaSayfa extends StatelessWidget {
             SizedBox(
               height: 16,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnaSayfaUrunWidget(
-                      baslik: "Nike",
-                      fiyat: 50,
-                      favoriMi: false,
-                      resimYolu: "assets/Nike1.png",
-                      indirimOrani: 50),
-                  AnaSayfaUrunWidget(
-                      baslik: "Nike",
-                      fiyat: 50,
-                      favoriMi: false,
-                      resimYolu: "assets/NikeSky2.png",
-                      indirimOrani: 50),
-                  AnaSayfaUrunWidget(
-                      baslik: "Nike",
-                      fiyat: 50,
-                      favoriMi: false,
-                      resimYolu: "assets/Adidas1.png",
-                      indirimOrani: 50),
-                ],
-              ),
-            ),
+            FutureBuilder(
+                future: FirebaseFirestore.instance.collection("urunler").get(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final urunler = snapshot.data!.docs;
+                  }
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AnaSayfaUrunWidget(
+                            baslik: "Nike",
+                            fiyat: 50,
+                            favoriMi: false,
+                            resimYolu: "assets/Nike1.png",
+                            indirimOrani: 50),
+                        AnaSayfaUrunWidget(
+                            baslik: "Nike",
+                            fiyat: 50,
+                            favoriMi: false,
+                            resimYolu: "assets/NikeSky2.png",
+                            indirimOrani: 50),
+                        AnaSayfaUrunWidget(
+                            baslik: "Nike",
+                            fiyat: 50,
+                            favoriMi: false,
+                            resimYolu: "assets/Adidas1.png",
+                            indirimOrani: 50),
+                      ],
+                    ),
+                  );
+                }),
           ],
         ),
       ),
