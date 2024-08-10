@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:online_satis/models/urun_model.dart';
 import 'package:online_satis/widgets/ana_sayfa_urun_widget.dart';
 import 'package:online_satis/widgets/app_drawer.dart';
 import 'package:online_satis/widgets/kategori_widget.dart';
@@ -326,33 +327,23 @@ class AnaSayfa extends StatelessWidget {
                 future: FirebaseFirestore.instance.collection("urunler").get(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    final urunler = snapshot.data!.docs;
+                    final urunler = snapshot.data!.docs
+                        .map((e) => UrunModel.fromFirestore(e.data(), e.id))
+                        .toList();
+
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (final urun in urunler)
+                            AnaSayfaUrunWidget(urun: urun)
+                        ],
+                      ),
+                    );
                   }
-                  return SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AnaSayfaUrunWidget(
-                            baslik: "Nike",
-                            fiyat: 50,
-                            favoriMi: false,
-                            resimYolu: "assets/Nike1.png",
-                            indirimOrani: 50),
-                        AnaSayfaUrunWidget(
-                            baslik: "Nike",
-                            fiyat: 50,
-                            favoriMi: false,
-                            resimYolu: "assets/NikeSky2.png",
-                            indirimOrani: 50),
-                        AnaSayfaUrunWidget(
-                            baslik: "Nike",
-                            fiyat: 50,
-                            favoriMi: false,
-                            resimYolu: "assets/Adidas1.png",
-                            indirimOrani: 50),
-                      ],
-                    ),
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 }),
           ],

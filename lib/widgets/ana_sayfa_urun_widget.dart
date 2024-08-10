@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:online_satis/models/urun_model.dart';
 
 class AnaSayfaUrunWidget extends StatefulWidget {
-  AnaSayfaUrunWidget(
-      {super.key,
-      required this.baslik,
-      required this.fiyat,
-      required this.favoriMi,
-      required this.resimYolu,
-      required this.indirimOrani});
+  AnaSayfaUrunWidget({
+    super.key,
+    required this.urun,
+  });
 
   @override
   State<AnaSayfaUrunWidget> createState() => _AnaSayfaUrunWidgetState();
-  final String baslik;
-  final double fiyat;
-  final bool favoriMi;
-  final String resimYolu;
-  final double indirimOrani;
+  final UrunModel urun;
 }
 
 // var baslik = "Adidas Ayakkabı";
@@ -39,8 +33,8 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
           children: [
             Stack(
               children: [
-                Image.asset(
-                  widget.resimYolu,
+                Image.network(
+                  widget.urun.resimYolu,
                   fit: BoxFit.cover,
                   width: 150,
                 ),
@@ -53,14 +47,14 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
             ),
             SizedBox(height: 8),
             Text(
-              widget.baslik,
+              widget.urun.baslik,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
             Row(
               children: [
                 Text(
-                  '\$${widget.fiyat}',
+                  '\$${widget.urun.fiyat}',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: 8),
@@ -71,7 +65,7 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   child: Padding(
                     padding: const EdgeInsets.all(3.0),
                     child: Text(
-                      '${widget.indirimOrani.toInt()}% İndirim',
+                      '${widget.urun.indirimOrani}% İndirim',
                       style: TextStyle(
                         color: Colors.white,
                       ),
