@@ -19,6 +19,7 @@ class AnaSayfaUrunWidget extends StatefulWidget {
 // double indirimOrani = 0.2;
 
 class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
+  bool favoriMi = false;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,7 +28,7 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(7.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -39,7 +40,21 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   width: 150,
                 ),
                 Positioned(
-                  child: Icon(Icons.shopping_bag, color: Colors.white),
+                  right: 0,
+                  height: 30,
+                  child: IconButton(
+                      icon: favoriMi
+                          ? Icon(Icons.favorite, color: Colors.red)
+                          : Icon(
+                              Icons.favorite_border,
+                              color: Colors.red,
+                            ),
+                      color: Colors.white,
+                      onPressed: () {
+                        setState(() {
+                          favoriMi = !favoriMi;
+                        });
+                      }),
                 ),
               ],
             ),
@@ -55,7 +70,7 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   '\$${widget.urun.fiyat}',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(width: 8),
+                SizedBox(width: 5),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
