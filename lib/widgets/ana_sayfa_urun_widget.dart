@@ -39,9 +39,7 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   width: 150,
                 ),
                 Positioned(
-                  top: 1,
-                  right: 0,
-                  child: Icon(Icons.favorite_border, color: Colors.white),
+                  child: Icon(Icons.shopping_bag, color: Colors.white),
                 ),
               ],
             ),

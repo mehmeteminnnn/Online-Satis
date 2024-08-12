@@ -234,7 +234,7 @@ class AnaSayfa extends StatelessWidget {
                             child: const Padding(
                               padding: EdgeInsets.all(5.0),
                               child: Text(
-                                "Upto 40% OFF",
+                                " 40% İndirim",
                                 style: TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 1)),
                               ),
@@ -248,8 +248,24 @@ class AnaSayfa extends StatelessWidget {
                       Column(
                         children: [
                           Image.asset('assets/Sneakers.png'),
-                          Text("Ürün Adı"),
-                          Text("Ürün Fiyatı"),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text("Sneakers"),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.greenAccent,
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                " 4200 TL",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1)),
+                              ),
+                            ),
+                          )
                         ],
                       )
                     ],
@@ -263,8 +279,23 @@ class AnaSayfa extends StatelessWidget {
                       Column(
                         children: [
                           Image.asset('assets/Speaker.png'),
-                          Text("Ürün Adı"),
-                          Text("Ürün Fiyatı"),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text("Hoparlör"),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.greenAccent),
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                " 2300 TL",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1)),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                       SizedBox(
@@ -273,8 +304,24 @@ class AnaSayfa extends StatelessWidget {
                       Column(
                         children: [
                           Image.asset('assets/Wrist.png'),
-                          Text("Ürün Adı"),
-                          Text("Ürün Fiyatı"),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Text("Saat"),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: const Color.fromARGB(255, 239, 68, 68),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Text(
+                                " %70'e Varan İndirim",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1)),
+                              ),
+                            ),
+                          )
                         ],
                       )
                     ],
