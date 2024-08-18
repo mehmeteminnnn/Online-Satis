@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _AppDrawerState extends State<AppDrawer> {
           UserAccountsDrawerHeader(
             decoration:
                 BoxDecoration(color: const Color.fromARGB(255, 181, 115, 91)),
-            accountName: Text('Mehmet Emin Tok'),
+            accountName: Text('Mehmet Emin'),
             accountEmail: Text('mehmetemin@example.com'),
             currentAccountPicture: CircleAvatar(
               backgroundImage: NetworkImage(

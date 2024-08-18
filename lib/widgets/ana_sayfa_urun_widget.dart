@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:online_satis/models/urun_model.dart';
 
@@ -12,17 +14,16 @@ class AnaSayfaUrunWidget extends StatefulWidget {
   final UrunModel urun;
 }
 
-// var baslik = "Adidas Ayakkabı";
-// double fiyat = 200;
-// bool favoriMi = false;
-// String resimYolu = "assets/Adidas1.png";
-// double indirimOrani = 0.2;
-
 class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
   bool favoriMi = false;
   bool sepetMi = false;
+
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final userDoc =
+        FirebaseFirestore.instance.collection("kullanicilar").doc(user!.uid);
+
     return SizedBox(
       height: 180,
       child: Card(
@@ -60,15 +61,36 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   Positioned(
                     left: -10,
                     top: -10,
-                    child: IconButton(
-                      icon: sepetMi
-                          ? Icon(Icons.shopping_bag, color: Colors.green)
-                          : Icon(Icons.shopping_bag_outlined,
-                              color: Colors.green),
-                      onPressed: () {
-                        setState(() {
-                          sepetMi = !sepetMi;
-                        });
+                    child: StreamBuilder<DocumentSnapshot>(
+                      stream: userDoc.snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return CircularProgressIndicator();
+                        }
+                        final List sepetListesi =
+                            snapshot.data!['sepettekiler'] ?? [];
+                        final listedemi =
+                            sepetListesi.contains(widget.urun.uid);
+
+                        return IconButton(
+                          icon: listedemi
+                              ? Icon(Icons.shopping_bag, color: Colors.green)
+                              : Icon(Icons.shopping_bag_outlined,
+                                  color: Colors.green),
+                          onPressed: () {
+                            if (listedemi) {
+                              userDoc.update({
+                                "sepettekiler":
+                                    FieldValue.arrayRemove([widget.urun.uid])
+                              });
+                            } else {
+                              userDoc.update({
+                                "sepettekiler":
+                                    FieldValue.arrayUnion([widget.urun.uid])
+                              });
+                            }
+                          },
+                        );
                       },
                     ),
                   ),
