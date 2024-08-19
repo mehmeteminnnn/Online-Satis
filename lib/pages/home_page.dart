@@ -5,6 +5,7 @@ import 'package:online_satis/models/urun_model.dart';
 import 'package:online_satis/widgets/ana_sayfa_urun_widget.dart';
 import 'package:online_satis/widgets/app_drawer.dart';
 import 'package:online_satis/widgets/kategori_widget.dart';
+import 'package:online_satis/widgets/sepet_widget.dart';
 
 DateTime hedef_zaman = DateTime(2024, 12, 29, 12);
 Duration kalan_zaman = hedef_zaman.difference(DateTime.now());
@@ -20,17 +21,13 @@ class AnaSayfa extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            color: Colors.black,
             icon: Icon(Icons.notifications_none_outlined),
             onPressed: () {
               print("Search button clicked");
             },
           ),
-          IconButton(
-            icon: Icon(Icons.shopping_cart_outlined),
-            onPressed: () {
-              print("More button clicked");
-            },
-          ),
+          SepetWidget(),
         ],
       ),
       drawer: AppDrawer(),

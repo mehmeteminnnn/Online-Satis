@@ -16,7 +16,7 @@ class AnaSayfaUrunWidget extends StatefulWidget {
 
 class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
   bool favoriMi = false;
-  bool sepetMi = false;
+  // bool sepetMi = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,37 +62,50 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   Positioned(
                     left: -10,
                     top: -10,
-                    child: IconButton(
-                      icon: sepetMi
-                          ? const Icon(Icons.shopping_bag, color: Colors.green)
-                          : const Icon(Icons.shopping_bag_outlined,
-                              color: Colors.green),
-                      onPressed: () {
-                        if (sepetMi) {
-                          userDoc.update({
-                            "sepettekiler":
-                                FieldValue.arrayRemove([widget.urun.uid])
-                          }).catchError((error) {
-                            debugPrint(
-                                "Sepetten ürün kaldırılırken hata oluştu: $error");
-                          });
-                          setState(() {
-                            sepetMi = !sepetMi;
-                          });
-                        } else {
-                          userDoc.update({
-                            'sepettekiler':
-                                FieldValue.arrayUnion([widget.urun.uid])
-                          }).catchError((error) {
-                            debugPrint(
-                                "Sepete ürün eklenirken hata oluştu: $error");
-                          });
-                          setState(() {
-                            sepetMi = !sepetMi;
-                          });
-                        }
-                      },
-                    ),
+                    child: StreamBuilder(
+                        stream: userDoc.snapshots(),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return CircularProgressIndicator();
+                          } else {
+                            final sepetListesi =
+                                snapshot.data!['sepettekiler'] ?? [];
+                            bool sepetMi =
+                                sepetListesi.contains(widget.urun.uid);
+                            return IconButton(
+                              icon: sepetMi
+                                  ? const Icon(Icons.shopping_bag,
+                                      color: Colors.green)
+                                  : const Icon(Icons.shopping_bag_outlined,
+                                      color: Colors.green),
+                              onPressed: () {
+                                if (sepetMi) {
+                                  userDoc.update({
+                                    "sepettekiler": FieldValue.arrayRemove(
+                                        [widget.urun.uid])
+                                  }).catchError((error) {
+                                    debugPrint(
+                                        "Sepetten ürün kaldırılırken hata oluştu: $error");
+                                  });
+                                  setState(() {
+                                    sepetMi = !sepetMi;
+                                  });
+                                } else {
+                                  userDoc.update({
+                                    'sepettekiler':
+                                        FieldValue.arrayUnion([widget.urun.uid])
+                                  }).catchError((error) {
+                                    debugPrint(
+                                        "Sepete ürün eklenirken hata oluştu: $error");
+                                  });
+                                  setState(() {
+                                    sepetMi = !sepetMi;
+                                  });
+                                }
+                              },
+                            );
+                          }
+                        }),
                   ),
                 ],
               ),
