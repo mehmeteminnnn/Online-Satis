@@ -59,27 +59,14 @@ class _GirisSayfasiState extends State<GirisSayfasi> {
             if (yukleniyor)
               CircularProgressIndicator()
             else
-              TextButton(
-                style: TextButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 14, 190, 87),
-                    minimumSize: Size(100, 50)),
-                onPressed: () {
-                  if (yukleniyor1 = true)
-                    CircularProgressIndicator();
-                  else
-                    yukleniyor1 = true;
-                  setState(() {
-                    FirebaseAuth.instance.signInAnonymously();
-                  });
-                },
-                child: Text("Anonim Giriş Yap"),
-              ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => KayitSayfasi()));
-                },
-                child: Text("Kayıt Ol")),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => KayitSayfasi()));
+                  },
+                  child: Text("Kayıt Ol")),
           ],
         ),
       ),

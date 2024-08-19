@@ -71,7 +71,8 @@ class _KayitSayfasiState extends State<KayitSayfasi> {
                       final kullanici = {'ad': isimsoyisim, 'email': email};
                       await FirebaseFirestore.instance
                           .collection('kullanicilar')
-                          .add(kullanici);
+                          .doc(userCredential.user!.uid)
+                          .set(kullanici);
 
                       setState(() {
                         yukleniyor = false;

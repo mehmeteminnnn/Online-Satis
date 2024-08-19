@@ -20,9 +20,10 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser;
+    final user = FirebaseAuth.instance.currentUser!;
+    print(FirebaseAuth.instance.currentUser!.uid);
     final userDoc =
-        FirebaseFirestore.instance.collection("kullanicilar").doc(user!.uid);
+        FirebaseFirestore.instance.collection("kullanicilar").doc(user.uid);
 
     return SizedBox(
       height: 180,
@@ -61,36 +62,35 @@ class _AnaSayfaUrunWidgetState extends State<AnaSayfaUrunWidget> {
                   Positioned(
                     left: -10,
                     top: -10,
-                    child: StreamBuilder<DocumentSnapshot>(
-                      stream: userDoc.snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {
-                          return CircularProgressIndicator();
+                    child: IconButton(
+                      icon: sepetMi
+                          ? const Icon(Icons.shopping_bag, color: Colors.green)
+                          : const Icon(Icons.shopping_bag_outlined,
+                              color: Colors.green),
+                      onPressed: () {
+                        if (sepetMi) {
+                          userDoc.update({
+                            "sepettekiler":
+                                FieldValue.arrayRemove([widget.urun.uid])
+                          }).catchError((error) {
+                            debugPrint(
+                                "Sepetten ürün kaldırılırken hata oluştu: $error");
+                          });
+                          setState(() {
+                            sepetMi = !sepetMi;
+                          });
+                        } else {
+                          userDoc.update({
+                            'sepettekiler':
+                                FieldValue.arrayUnion([widget.urun.uid])
+                          }).catchError((error) {
+                            debugPrint(
+                                "Sepete ürün eklenirken hata oluştu: $error");
+                          });
+                          setState(() {
+                            sepetMi = !sepetMi;
+                          });
                         }
-                        final List sepetListesi =
-                            snapshot.data!['sepettekiler'] ?? [];
-                        final listedemi =
-                            sepetListesi.contains(widget.urun.uid);
-
-                        return IconButton(
-                          icon: listedemi
-                              ? Icon(Icons.shopping_bag, color: Colors.green)
-                              : Icon(Icons.shopping_bag_outlined,
-                                  color: Colors.green),
-                          onPressed: () {
-                            if (listedemi) {
-                              userDoc.update({
-                                "sepettekiler":
-                                    FieldValue.arrayRemove([widget.urun.uid])
-                              });
-                            } else {
-                              userDoc.update({
-                                "sepettekiler":
-                                    FieldValue.arrayUnion([widget.urun.uid])
-                              });
-                            }
-                          },
-                        );
                       },
                     ),
                   ),
